@@ -1,0 +1,19 @@
+ext {
+    buildVersionCode = {
+
+        def splits = version.toLowerCase().split('-')
+        def (major, minor, patch) = splits[0].tokenize('.')
+        def build = 0
+
+        if (splits.size() > 1) {
+            build = Integer.parseInt(splits[1].replaceAll("[\\D]", ""))
+        } else {
+            build = 9
+        }
+
+        (major, minor, patch) = [major, minor, patch].collect{it.toInteger()}
+
+        def previousMax = 400302000 - 400001
+        (major * 100000) + (minor * 1000) + (patch * 10) + build + previousMax
+    }
+}

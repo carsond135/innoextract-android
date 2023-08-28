@@ -1,0 +1,88 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply from: 'versioning.gradle'
+apply plugin: 'com.mikepenz.aboutlibraries.plugin'
+
+project.ext.version = "4.1.0-beta1"
+
+repositories {
+    maven {
+        url 'https://jitpack.io'
+    }
+}
+
+dependencies {
+    implementation project(':Service')
+    implementation project(':GogAPI')
+
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.legacy:legacy-support-core-utils:1.0.0'
+    implementation 'androidx.legacy:legacy-support-core-ui:1.0.0'
+    implementation 'androidx.annotation:annotation:1.6.0'
+    implementation 'com.karumi:dexter:6.2.3'
+    implementation 'com.github.debop:koda-time:2.0.0'
+    implementation 'joda-time:joda-time:2.12.5'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    implementation 'androidx.palette:palette-ktx:1.0.0'
+    implementation "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    implementation "com.mikepenz:aboutlibraries:8.9.4"
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
+
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    kapt 'com.github.bumptech.glide:compiler:4.15.1'
+}
+
+android {
+    compileSdkVersion 34
+    namespace 'uk.co.armedpineapple.innoextract'
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+    defaultConfig {
+        minSdkVersion 26
+        targetSdkVersion 34
+        versionName project.ext.version
+        versionCode buildVersionCode()
+    }
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.txt'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = 17
+        targetCompatibility = 17
+    }
+    splits {
+        abi {
+            enable true
+            exclude "mips", "mips64", "armeabi"
+            universalApk true
+        }
+    }
+    lint {
+        abortOnError false
+    }
+}
