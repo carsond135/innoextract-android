@@ -1,0 +1,3 @@
+[submodule "Service/jni/innoextract"]
+	path = Service/jni/innoextract
+	url = https://github.com/alanwoolley/innoextract.git
